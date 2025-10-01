@@ -15,5 +15,26 @@ Original file is located at
 #Importamos las librerias
 import streamlit as st
 import pandas as pd
+import yfinance as yf
 
-st.title("Mi primera aplicación en Stremlit :) ")
+st.title("Mi primera aplicación en Stremlit ")
+
+#Lista de tickter inicial
+lista_tickers = ["AAPL","MSFT","NVDA","META"]
+
+#multiselector
+ticker=st.multiselect("Elija un ticker",lista_tickers)
+
+# Botón
+
+if st.button("Descargar"):
+  data=yf.download(ticker,period="1mo")["Close"]
+  st.subheader("precio de cierre")
+  st.dataframe(data)
+
+  st.subheader("Evolución del precio de cierre")
+  st.line_chart(data)
+else:
+  st.warning("Seleccione al menos un ticker para continuar")
+
+"""Your Streamlit app is running in the background. You can access it by clicking the "Tunnel" button in the "Ports" tab of the left sidebar."""
